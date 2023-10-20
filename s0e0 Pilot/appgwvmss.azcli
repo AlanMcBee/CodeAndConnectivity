@@ -1,4 +1,4 @@
-
+# based on this document https://learn.microsoft.com/en-us/azure/application-gateway/tutorial-manage-web-traffic-cli
 # Parameters (make changes based on your requirements)
 region1=Westus #set region1
 rg=lab-appgw_rg #set resource group
