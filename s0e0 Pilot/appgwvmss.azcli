@@ -1,31 +1,38 @@
 
-az group create --name myAppGw_rg --location westus
+# Parameters (make changes based on your requirements)
+region1=Westus #set region1
+rg=appgw-lab #set resource group
+vn=vnet01 #set vnet name
+username=azureuser #set username
+password=Msft123Msft123
+
+az group create -n $rg -l $region1 --output none
 
 az network vnet create \
- --name myVNet \
- --resource-group myResourceGroupAG \
- --location eastus \
+ --name $vn \
+ --resource-group $rg \
+ --location $region1 \
  --address-prefix 10.0.0.0/16 \
  --subnet-name myAGSubnet \
  --subnet-prefix 10.0.1.0/24
 
 az network vnet subnet create \
  --name myBackendSubnet \
- --resource-group myResourceGroupAG \
- --vnet-name myVNet \
+ --resource-group $rg \
+ --vnet-name $vn \
  --address-prefix 10.0.2.0/24
 
 az network public-ip create \
- --resource-group myResourceGroupAG \
+ --resource-group $rg \
  --name myAGPublicIPAddress \
  --allocation-method Static \
  --sku Standard
 
  az network application-gateway create \
  --name myAppGateway \
- --location eastus \
- --resource-group myResourceGroupAG \
- --vnet-name myVNet \
+ --location $region1 \
+ --resource-group $rg \
+ --vnet-name $vn \
  --subnet myAGsubnet \
  --capacity 2 \
  --sku Standard_v2 \
@@ -40,10 +47,10 @@ az network public-ip create \
  --name myvmss \
  --resource-group myResourceGroupAG \
  --image Ubuntu2204 \
- --admin-username azureuser \
- --admin-password Azure123456! \
+ --admin-username $username \
+ --admin-password $password \
  --instance-count 2 \
- --vnet-name myVNet \
+ --vnet-name $vn \
  --subnet myBackendSubnet \
  --vm-sku Standard_DS2 \
  --upgrade-policy-mode Automatic \
